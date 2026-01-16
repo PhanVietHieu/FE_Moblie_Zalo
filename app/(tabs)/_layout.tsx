@@ -1,35 +1,38 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+"use client"
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useState } from "react"
+import { View, SafeAreaView } from "react-native"
+import ZaloBottomNav from "@/components/ZaloBottomNav"
+import { MessagesScreen } from "@/screens/MessagesScreen"
+import { ContactsScreen } from "@/screens/ContactsScreen"
+import { DiscoverScreen } from "@/screens/DiscoverScreen"
+import { TimelineScreen } from "@/screens/TimelineScreen"
+import { ProfileScreen } from "@/screens/ProfileScreen"
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const [activeTab, setActiveTab] = useState<string>("messages")
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "messages":
+        return <MessagesScreen />
+      case "contacts":
+        return <ContactsScreen />
+      case "discover":
+        return <DiscoverScreen />
+      case "feed":
+        return <TimelineScreen />
+      case "profile":
+        return <ProfileScreen />
+      default:
+        return <MessagesScreen />
+    }
+  }
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={{ flex: 1 }}>{renderContent()}</View>
+      <ZaloBottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+    </SafeAreaView>
+  )
 }
