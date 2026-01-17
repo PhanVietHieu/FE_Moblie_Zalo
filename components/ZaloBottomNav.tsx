@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from "react-native"
+import { View, TouchableOpacity, Text, StyleSheet, Dimensions, Platform } from "react-native"
 import Ionicons from "@expo/vector-icons/Ionicons"
 
 const ZALO_BLUE = "#0084FF"
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         backgroundColor: BACKGROUND_COLOR,
         borderTopWidth: 1,
         borderTopColor: "#F0F0F0",
-        paddingBottom: 0,
+        paddingBottom: Platform.OS === "android" ? 8 : 4, // Add bottom padding for Android nav bar clearance
         elevation: 8,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: -2 },
